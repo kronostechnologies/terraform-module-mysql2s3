@@ -87,6 +87,7 @@ data "template_file" "cloudinit" {
     aws_region = "${var.cloudinit_aws_region}"
     aws_access_key_id = "${aws_iam_access_key.backup.id}"
     aws_secret_access_key = "${aws_iam_access_key.backup.secret}"
+    aws_s3_bucket = "${var.s3_bucket_name}"
     aws_s3_queuesize = "${var.cloudinit_aws_s3_queuesize}"
     aws_s3_partsize = "${var.cloudinit_aws_s3_partsize}"
     compression_type = "${var.cloudinit_compression_type}"
