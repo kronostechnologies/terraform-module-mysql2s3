@@ -85,8 +85,8 @@ data "template_file" "cloudinit" {
   vars {
     fqdn = "mysql2s3"
     aws_region = "${var.cloudinit_aws_region}"
-    aws_access_key_id = "${var.cloudinit_aws_access_key_id}"
-    aws_secret_access_key = "${var.cloudinit_aws_secret_access_key}"
+    aws_access_key_id = "${aws_iam_access_key.backup.id}"
+    aws_secret_access_key = "${aws_iam_access_key.backup.secret}"
     aws_s3_queuesize = "${var.cloudinit_aws_s3_queuesize}"
     aws_s3_partsize = "${var.cloudinit_aws_s3_partsize}"
     compression_type = "${var.cloudinit_compression_type}"

@@ -1,8 +1,6 @@
 variable "s3_bucket_name" {}
 
 variable "cloudinit_aws_region" { default = "us-east-1" }
-variable "cloudinit_aws_access_key_id" {}
-variable "cloudinit_aws_secret_access_key" {}
 variable "cloudinit_aws_s3_queuesize" { default = 4 }
 variable "cloudinit_aws_s3_partsize" { default = "5242880" }
 variable "cloudinit_compression_type" { default = "xz" }
