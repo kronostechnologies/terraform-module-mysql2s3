@@ -1,0 +1,18 @@
+fqdn: lambda-backup.accp.kronos-crm.com
+
+runcmd:
+  - sed -i 's/scripts-user$/\[scripts-user, always\]/' /etc/cloud/cloud.cfg
+  - apt-get update
+  - apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
+  - curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
+  - apt-get update
+  - apt-get install -y docker-ce
+  - docker pull kronostechnologies/mysql2s3
+  - docker run --rm -e AWS_REGION=${aws_region} -e AWS_ACCESS_KEY_ID=${aws_access_key_id} -e AWS_SECRET_ACCESS_KEY=${aws_secret_access_key} -e AWS_S3_BUCKET=${aws_s3_bucket} -e AWS_S/_QUEUESIZE=${aws_s3_queuesize} -e AWS_S3_PARTSIZE=${aws_s3_partsize} -e COMPRESSION_TYPE=${compression_type} -e COMPRESSION_LEVEL=${compression_level} COMPRESSION_THREADS=${compression_threads} -e CONCURRENCY=${concurrency} -e KEYNAME_TEMPLATE=${keyname_template} -e LOG_LEVEL=${log_level} -e MYSQL_HOST=${mysql_host} -e MYSQL_USER=${mysql_user} -e MYSQL_PWD=${mysql_pwd} kronostechnologies/mysql2s3
+
+power_state:
+  delay: "+2"
+  mode: poweroff
+  message: Done
+  condition: true
