@@ -141,8 +141,8 @@ data "aws_iam_policy_document" "lambda" {
 
 data "archive_file" "lambda" {
   type        = "zip"
-  source_file = "./backup.py"
-  output_path = "./backup.zip"
+  source_file = "${path.module}/backup.py"
+  output_path = "${path.module}/backup.zip"
 }
 
 resource "aws_iam_role" "lambda" {
