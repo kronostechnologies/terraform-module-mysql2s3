@@ -11,6 +11,10 @@ resource "aws_iam_user_policy" "backup" {
   user   = "${aws_iam_user.backup.name}"
 }
 
+resource "aws_iam_access_key" "backup" {
+  user = "${aws_iam_user.backup.name}"
+}
+
 data "aws_iam_policy_document" "backup" {
   statement {
     actions   = [
