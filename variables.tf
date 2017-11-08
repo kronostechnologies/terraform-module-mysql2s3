@@ -21,4 +21,5 @@ variable "ec2_tag_name" { default = "mysql2s3" }
 variable "ec2_tag_description" { default = "Booting this machine will start the entire database backup process." }
 variable "ec2_key_name" {}
 
+variable "lambda_function_name" { default = "mysql2s3" }
 variable "lambda_schedule_expression" { default = "rate(1 day)" }
