@@ -175,7 +175,7 @@ resource "aws_iam_role_policy" "lambda" {
 
 resource "aws_lambda_function" "lambda" {
   runtime          = "python2.7"
-  filename         = "./backup.zip"
+  filename         = "${path.module}/backup.zip"
   function_name    = "mysql2s3-${var.s3_bucket_name}"
   role             = "${aws_iam_role.lambda.arn}"
   handler          = "lambda_handler"
