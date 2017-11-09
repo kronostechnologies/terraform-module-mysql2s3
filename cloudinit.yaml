@@ -10,9 +10,4 @@ runcmd:
   - apt-get install -y docker-ce
   - docker pull kronostechnologies/mysql2s3
   - docker run --rm -e AWS_REGION=${aws_region} -e AWS_ACCESS_KEY_ID=${aws_access_key_id} -e AWS_SECRET_ACCESS_KEY=${aws_secret_access_key} -e AWS_S3_BUCKET=${aws_s3_bucket} -e AWS_S3_QUEUESIZE=${aws_s3_queuesize} -e AWS_S3_PARTSIZE=${aws_s3_partsize} -e COMPRESSION_TYPE=${compression_type} -e COMPRESSION_LEVEL=${compression_level} -e COMPRESSION_THREADS=${compression_threads} -e CONCURRENCY=${concurrency} -e KEYNAME_TEMPLATE=${keyname_template} -e LOG_LEVEL=${log_level} -e MYSQL_HOST=${mysql_host} -e MYSQL_USER=${mysql_user} -e MYSQL_PWD=${mysql_pwd} kronostechnologies/mysql2s3
-
-power_state:
-  delay: "+2"
-  mode: poweroff
-  message: Done
-  condition: true
+  - shutdown -h now
