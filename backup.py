@@ -4,9 +4,7 @@ ec2 = boto3.client('ec2')
 
 def lambda_handler(event, context):
     response = ec2.get_console_output(
-        InstanceIds=[
-                os.environ['LAMBDA_EC2_ID']
-        ],
+        InstanceId=os.environ['LAMBDA_EC2_ID'],
         DryRun=False
     )
     print(response.output)
