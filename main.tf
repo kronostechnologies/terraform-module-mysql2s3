@@ -132,6 +132,7 @@ data "aws_iam_policy_document" "lambda" {
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "ec2:StartInstances",
+      "ec2:GetConsoleOutput",
     ]
 
     resources = [
@@ -178,7 +179,7 @@ resource "aws_lambda_function" "lambda" {
   filename         = "${path.module}/backup.zip"
   function_name    = "${var.lambda_function_name}"
   role             = "${aws_iam_role.lambda.arn}"
-  handler          = "lambda_handler"
+  handler          = "backup.lambda_handler"
   source_code_hash = "${data.archive_file.lambda.output_base64sha256}"
   timeout          = 3
   environment {
