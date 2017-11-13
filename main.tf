@@ -94,7 +94,6 @@ data "template_file" "cloudinit" {
     compression_level = "${var.cloudinit_compression_level}"
     compression_threads = "${var.cloudinit_compression_threads}"
     concurrency = "${var.cloudinit_concurrency}"
-    keyname_template = "${var.cloudinit_keyname_template}"
     log_level = "${var.cloudinit_log_level}"
     mysql_host = "${var.cloudinit_mysql_host}"
     mysql_user = "${var.cloudinit_mysql_user}"

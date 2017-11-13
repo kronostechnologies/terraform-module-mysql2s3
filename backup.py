@@ -7,7 +7,7 @@ def lambda_handler(event, context):
         InstanceId=os.environ['LAMBDA_EC2_ID'],
         DryRun=False
     )
-    print(response.output)
+    print(response)
 
     response = ec2.start_instances(
         InstanceIds=[

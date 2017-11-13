@@ -7,7 +7,6 @@ variable "cloudinit_compression_type" { default = "xz" }
 variable "cloudinit_compression_level" { default = 2 }
 variable "cloudinit_compression_threads" { default = 1 }
 variable "cloudinit_concurrency" { default = 1 }
-variable "cloudinit_keyname_template" { default = "UTC:yyyy'/'mm'/'dd'/$database.sql.xz'" }
 variable "cloudinit_log_level" { default = "debug" }
 variable "cloudinit_mysql_host" {}
 variable "cloudinit_mysql_user" {}
@@ -18,7 +17,7 @@ variable "ec2_vpc_security_group_ids" { type = "list" }
 variable "ec2_subnet_id" {}
 variable "ec2_instance_type" { default = "t2.small" }
 variable "ec2_tag_name" { default = "mysql2s3" }
-variable "ec2_tag_description" { default = "Booting this machine will start the entire database backup process." }
+variable "ec2_tag_description" { default = "Booting this machine will start the entire database backup process and then shutdown." }
 variable "ec2_key_name" {}
 
 variable "lambda_function_name" { default = "mysql2s3" }
