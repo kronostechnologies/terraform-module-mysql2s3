@@ -45,21 +45,21 @@ resource "aws_s3_bucket" "backup" {
     abort_incomplete_multipart_upload_days = 1
 
     transition {
-      days = 30
+      days = "${var.s3_transition_to_standard_IA_days}"
       storage_class = "STANDARD_IA"
     }
 
     transition {
-      days = 90
+      days = "${var.s3_transition_to_glacier_days}"
       storage_class = "GLACIER"
     }
 
     expiration {
-      days = 91
+      days = "${var.s3_transition_expiration}"
     }
 
     noncurrent_version_expiration {
-      days = 1736
+      days = "${var.s3_transition_noncurrent_version_expiration}"
     }
   }
 
