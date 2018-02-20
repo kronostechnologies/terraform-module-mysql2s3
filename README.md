@@ -1,6 +1,6 @@
 # Terraform Module Mysql2s3
 
-This terraform module creates an ec2 machine that takes backup of a mysql host into S3. This ec2 is launched via an aws schedules lambda function.
+This terraform module creates a lambda function that launches an ec2 machine which launch [mysql2s3 docker container](https://github.com/kronostechnologies/docker-mysql2s3).
 
 ## Usage
 
@@ -63,4 +63,6 @@ module "backup" {
   lambda_schedule_expression = "rate(1 day)"
 }
 ```
+
+> Variables prefixed with "cloudinit" are variables passed to the docker container. See [mysql2s3 docker container](https://github.com/kronostechnologies/docker-mysql2s3).
 
