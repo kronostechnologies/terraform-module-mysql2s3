@@ -41,6 +41,7 @@ module "backup" {
   s3_transition_to_glacier_days = 60
   s3_transition_expiration = 61
   s3_transition_noncurrent_version_expiration = 30
+  s3_transition_rule_name = "mysql2s3 backup policy"
   cloudinit_aws_region = "us-east-1"
   cloudinit_aws_s3_queuesize = 4
   cloudinit_aws_s3_partsize = "5242880"

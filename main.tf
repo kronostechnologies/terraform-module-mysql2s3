@@ -39,7 +39,7 @@ resource "aws_s3_bucket" "backup" {
   }
 
   lifecycle_rule {
-    id = "5-year backup policy"
+    id = "${var.s3_transition_rule_name}"
     enabled = true
     prefix = ""
     abort_incomplete_multipart_upload_days = 1
