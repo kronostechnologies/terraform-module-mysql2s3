@@ -5,11 +5,17 @@ This terraform module creates a lambda function that launches an ec2 machine whi
 ## Usage
 
 ```
+locals {
+  bucket_name = "mysql2s3-bucket-name"
+  lambda_name = "mysql2s3-lambda-name"
+}
+
+# SECURITY GROUPS
 resource "aws_security_group" "mysql2s3-lambda" {
   name        = "mysql2s3-lambda"
   description = "mysql2s3-lambda"
 
-  # if you need ssh access for debugging
+  # if you need ssh access for debugging the ec2 that starts the backup procedure
   ingress {
     from_port   = 22
     to_port     = 22
@@ -34,6 +40,7 @@ resource "aws_security_group" "mysql2s3-lambda" {
   }
 }
 
+# Actual module
 module "backup" {
   source = "github.com/kronostechnologies/terraform-module-mysql2s3"
   s3_bucket_name = "mybucketname"
@@ -60,10 +67,35 @@ module "backup" {
   ec2_tag_name = "mysql2s3"
   ec2_tag_description = "Booting this machine will start the entire database backup process and then shutdown."
   ec2_key_name = "your-keyname"
-  lambda_function_name = "mysql2s3"
+  lambda_function_name = "${local.lambda_name}"
   lambda_schedule_expression = "rate(1 day)"
 }
 ```
 
 > Variables prefixed with "cloudinit" are variables passed to the docker container. See [mysql2s3 docker container](https://github.com/kronostechnologies/docker-mysql2s3).
 
+## CloudWatch Alarm
+
+If you need cloud watch alarm, add this next to the module definition. This alarm will change to ALARM state whenever there is 1 error within 1 day with the lambda invocation.
+
+```
+resource "aws_cloudwatch_metric_alarm" "mnysql2s3-lambda-error" {
+  alarm_name                = "${local.lambda_name}-error"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "Errors"
+  namespace                 = "AWS/Lambda"
+  period                    = "86400" # 1 day period
+  statistic                 = "Average"
+  threshold                 = "1"
+  alarm_description         = "This metric monitors error with lambda function '${local.lambda_name}'"
+  dimensions {
+    FunctionName = "${local.lambda_name}"
+  }
+  alarm_actions             = ["ARN TOPIC"]
+}
+```
+
+Depending on module configuration, you may want to change the period. If you run the backup process every 6 hours, you want the period to be 21600 seconds (6 hours).
+
+If you run the backup process once a week, you will want to consider missing data as good data. Add `treat_missing_data = notBreaching` because you cannot set a period to more than 1 day.
