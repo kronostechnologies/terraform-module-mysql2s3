@@ -17,6 +17,7 @@ variable "cloudinit_mysql_host" {}
 variable "cloudinit_mysql_user" {}
 variable "cloudinit_mysql_pwd" {}
 
+variable "ec2_enable" { default = true }
 variable "ec2_ami" { default = "ami-3709b053" description = "The default AMI 'ami-3709b053' is a debian stretch" }
 variable "ec2_vpc_security_group_ids" { type = "list" }
 variable "ec2_subnet_id" {}
