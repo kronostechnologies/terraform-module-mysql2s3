@@ -202,7 +202,7 @@ resource "aws_iam_role_policy" "lambda" {
 resource "aws_lambda_function" "lambda" {
   count = var.ec2_enable ? 1 : 0
 
-  runtime = "python2.7"
+  runtime = "python3.8"
   filename = "${path.module}/backup.zip"
   function_name = var.lambda_function_name
   role = aws_iam_role.lambda[0].arn
