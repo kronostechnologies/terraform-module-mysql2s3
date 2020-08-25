@@ -85,7 +85,7 @@ resource "aws_cloudwatch_metric_alarm" "monitoring-backup-error" {
   statistic           = "Sum"
   threshold           = "0"
   alarm_description   = "${var.s3_bucket_name} backup error"
-  treat_missing_data  = "breaching"
+  treat_missing_data  = "missing"
   dimensions = {
     FunctionName = "${var.lambda_function_name}-monitoring"
   }
