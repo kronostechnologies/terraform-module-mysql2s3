@@ -1,0 +1,21 @@
+{
+  "name": "mysql2s3-monitoring",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "Equisoft Inc.",
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn && mkdir -p build && rm -rf build/* && cp -r src/* build",
+    "prestart": "yarn build",
+    "start": "lambda-local -l build/index.js -e dev/event.js -t 10",
+    "prepackage": "yarn build && yarn install --production --modules-folder build/node_modules",
+    "package": "mkdir -p dist && rm -rf dist/* && cd build && zip -9r ../dist/mysql2s3-monitoring.zip *"
+  },
+  "dependencies": {
+    "dateformat": "^3.0.3"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.739.0",
+    "lambda-local": "^1.7.3"
+  }
+}

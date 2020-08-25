@@ -65,13 +65,24 @@ variable "cloudinit_mysql_pwd" {
   default = ""
 }
 
+variable "monitoring_alarm_actions" {
+  default = []
+}
+
+variable "monitoring_error_actions" {
+  default = []
+}
+
+variable "monitoring_ok_actions" {
+  default = []
+}
+
 variable "ec2_enable" {
   default = true
 }
 
 variable "ec2_ami" {
   default     = "ami-3709b053"
-  description = "The default AMI 'ami-3709b053' is a debian stretch"
 }
 
 variable "ec2_vpc_security_group_ids" {

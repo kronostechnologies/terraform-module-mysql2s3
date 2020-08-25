@@ -1,4 +1,4 @@
-fqdn: lambda-backup.accp.kronos-crm.com
+fqdn: mysql2s3
 
 runcmd:
   - sed -i 's/scripts-user$/\[scripts-user, always\]/' /etc/cloud/cloud.cfg
