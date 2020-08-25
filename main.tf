@@ -127,8 +127,9 @@ resource "aws_instance" "instance" {
 
   root_block_device {
     delete_on_termination = true
-    volume_size           = "8"
+    volume_size           = 10
     volume_type           = "standard"
+    encrypted             = true
   }
 
   tags = {
@@ -202,13 +203,13 @@ resource "aws_iam_role_policy" "lambda" {
 resource "aws_lambda_function" "lambda" {
   count = var.ec2_enable ? 1 : 0
 
-  runtime = "python3.8"
-  filename = "${path.module}/backup.zip"
-  function_name = var.lambda_function_name
-  role = aws_iam_role.lambda[0].arn
-  handler = "backup.lambda_handler"
+  runtime          = "python3.8"
+  filename         = "${path.module}/backup.zip"
+  function_name    = var.lambda_function_name
+  role             = aws_iam_role.lambda[0].arn
+  handler          = "backup.lambda_handler"
   source_code_hash = data.archive_file.lambda[0].output_base64sha256
-  timeout = 3
+  timeout          = 3
 
   environment {
     variables = {
@@ -220,17 +221,17 @@ resource "aws_lambda_function" "lambda" {
 resource "aws_lambda_permission" "cloudwatch" {
   count = var.ec2_enable ? 1 : 0
 
-  statement_id = "AllowExecutionFromCloudWatch"
-  action = "lambda:InvokeFunction"
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda[0].arn
-  principal = "events.amazonaws.com"
-  source_arn = aws_cloudwatch_event_rule.lambda[0].arn
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.lambda[0].arn
 }
 
 resource "aws_cloudwatch_event_rule" "lambda" {
   count = var.ec2_enable ? 1 : 0
 
-  name = "mysql2s3-${var.s3_bucket_name}-${aws_instance.instance[0].id}"
+  name                = "mysql2s3-${var.s3_bucket_name}-${aws_instance.instance[0].id}"
   schedule_expression = var.lambda_schedule_expression
 }
 
@@ -238,7 +239,7 @@ resource "aws_cloudwatch_event_target" "lambda" {
   count = var.ec2_enable ? 1 : 0
 
   target_id = "mysql2s3-${var.s3_bucket_name}-${aws_instance.instance[0].id}"
-  rule = aws_cloudwatch_event_rule.lambda[0].name
-  arn = aws_lambda_function.lambda[0].arn
+  rule      = aws_cloudwatch_event_rule.lambda[0].name
+  arn       = aws_lambda_function.lambda[0].arn
 }
 
