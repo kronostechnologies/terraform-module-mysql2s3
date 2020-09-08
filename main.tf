@@ -233,6 +233,7 @@ resource "aws_cloudwatch_event_rule" "lambda" {
 
   name                = "mysql2s3-${var.s3_bucket_name}-${aws_instance.instance[0].id}"
   schedule_expression = var.lambda_schedule_expression
+  is_enabled          = var.lambda_schedule_is_enabled
 }
 
 resource "aws_cloudwatch_event_target" "lambda" {
