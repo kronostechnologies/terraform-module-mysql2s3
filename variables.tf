@@ -113,6 +113,11 @@ variable "lambda_function_name" {
   default = "mysql2s3"
 }
 
+
+variable "lambda_schedule_is_enabled" {
+  default = "true"
+}
+
 variable "lambda_schedule_expression" {
   default = "rate(1 day)"
 }
