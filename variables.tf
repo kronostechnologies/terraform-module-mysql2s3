@@ -82,7 +82,7 @@ variable "ec2_enable" {
 }
 
 variable "ec2_ami" {
-  default     = "ami-3709b053"
+  default = "ami-3709b053"
 }
 
 variable "ec2_vpc_security_group_ids" {
@@ -107,6 +107,10 @@ variable "ec2_tag_description" {
 
 variable "ec2_key_name" {
   default = ""
+}
+
+variable "iam_enable" {
+  default = true
 }
 
 variable "lambda_function_name" {

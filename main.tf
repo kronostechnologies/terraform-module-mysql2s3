@@ -1,18 +1,22 @@
 # User access
 resource "aws_iam_user" "backup" {
+
+  count         = var.iam_enable ? 1 : 0
   name          = "mysql2s3-${var.s3_bucket_name}"
   path          = "/"
   force_destroy = true
 }
 
 resource "aws_iam_user_policy" "backup" {
+  count  = var.iam_enable ? 1 : 0
   name   = "mysql2s3-${var.s3_bucket_name}"
   policy = data.aws_iam_policy_document.backup.json
-  user   = aws_iam_user.backup.name
+  user   = aws_iam_user.backup[count.index].name
 }
 
 resource "aws_iam_access_key" "backup" {
-  user = aws_iam_user.backup.name
+  count = var.iam_enable ? 1 : 0
+  user  = aws_iam_user.backup[count.index].name
 }
 
 data "aws_iam_policy_document" "backup" {
@@ -98,8 +102,8 @@ data "template_file" "cloudinit" {
   vars = {
     fqdn                  = "mysql2s3"
     aws_region            = var.cloudinit_aws_region
-    aws_access_key_id     = aws_iam_access_key.backup.id
-    aws_secret_access_key = aws_iam_access_key.backup.secret
+    aws_access_key_id     = aws_iam_access_key.backup[0].id
+    aws_secret_access_key = aws_iam_access_key.backup[0].secret
     aws_s3_bucket         = var.s3_bucket_name
     aws_s3_queuesize      = var.cloudinit_aws_s3_queuesize
     aws_s3_partsize       = var.cloudinit_aws_s3_partsize
