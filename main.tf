@@ -115,6 +115,7 @@ data "template_file" "cloudinit" {
     mysql_host            = var.cloudinit_mysql_host
     mysql_user            = var.cloudinit_mysql_user
     mysql_pwd             = var.cloudinit_mysql_pwd
+    docker_image          = var.docker_image
   }
 }
 

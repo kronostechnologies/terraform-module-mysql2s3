@@ -65,6 +65,11 @@ variable "cloudinit_mysql_pwd" {
   default = ""
 }
 
+variable "docker_image" {
+  default = "ghcr.io/kronostechnologies/docker-mysql2s3:latest"
+  type = string
+}
+
 variable "monitoring_alarm_actions" {
   default = []
 }
